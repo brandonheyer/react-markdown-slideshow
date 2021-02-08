@@ -6,7 +6,22 @@ const updateIndex = (change, current, setCurrentSection) => () => {
     setCurrentSection({ index: current.index + change });
     window.location.hash = `#${current.index + change}`;
 };
-const MarkdownPresentation = ({ notes, notesWindow, sections, sectionTags = [], startingSection = 0, }) => {
+const sectionMapper = (S) => {
+    if (typeof S === "function") {
+        return (React.createElement(S, null));
+    }
+    return S;
+};
+const SlidePart = ({ section, index, className }) => {
+    if (section) {
+        const currentSection = section[index];
+        if (currentSection && currentSection.length) {
+            return (React.createElement("div", { className: className }, currentSection.map(sectionMapper)));
+        }
+    }
+    return null;
+};
+const MarkdownPresentation = ({ notes, notesWindow, sections, sectionTags = [], sectionClasses = [], startingSection = 0, }) => {
     const [currentSection, setCurrentSection] = useState({
         index: startingSection,
     });
@@ -17,8 +32,11 @@ const MarkdownPresentation = ({ notes, notesWindow, sections, sectionTags = [], 
     useEffect(() => {
         updateNotesWindow(currentSection.index, sections.length, notesWindow, notes);
     }, [notes, notesWindow, currentSection.index, sections.length]);
-    return (React.createElement("section", null,
-        React.createElement("div", { "data-tags": sectionTags[currentSection.index] && sectionTags[currentSection.index].join("-") }, sections[currentSection.index])));
+    console.log(sectionClasses);
+    return (React.createElement("section", { className: "slide" },
+        React.createElement("div", { className: `slide-container ${sectionClasses[currentSection.index] && sectionClasses[currentSection.index].join(" ")}`, "data-tags": sectionTags[currentSection.index] && sectionTags[currentSection.index].join("-") },
+            React.createElement(SlidePart, { className: "slide-header", section: sections[currentSection.index], index: 0 }),
+            React.createElement(SlidePart, { className: "slide-body", section: sections[currentSection.index], index: 1 }))));
 };
 export default MarkdownPresentation;
-//# sourceMappingURL=markdown-presentation.js.map
+//# sourceMappingURL=../src/markdown-presentation.js.map

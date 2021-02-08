@@ -6,6 +6,7 @@ import initNotesWindow from "./lib/init-notes-window";
 const Loader = ({ path, presentationOptions = {} }) => {
     const [sections, setSections] = useState([]);
     const [sectionTags, setSectionTags] = useState([]);
+    const [sectionClasses, setSectionClasses] = useState([]);
     const [notes, setNotes] = useState([]);
     const [notesWindow, setNotesWindow] = useState(null);
     // Get options with defaults
@@ -17,9 +18,9 @@ const Loader = ({ path, presentationOptions = {} }) => {
     }, [showNotes]);
     // Process the provided markdown at `path`
     useEffect(() => {
-        processMarkdown(path, setSections, setNotes, setSectionTags);
+        processMarkdown(path, setSections, setNotes, setSectionTags, setSectionClasses);
     }, [path]);
-    return (React.createElement(MarkdownPresentation, { sections: sections, notes: notes, notesWindow: notesWindow, startingSection: parseInt(window.location.hash.replace("#", ""), 10) || 0, sectionTags: sectionTags }));
+    return (React.createElement(MarkdownPresentation, { sections: sections, notes: notes, notesWindow: notesWindow, startingSection: parseInt(window.location.hash.replace("#", ""), 10) || 0, sectionTags: sectionTags, sectionClasses: sectionClasses }));
 };
 export default Loader;
-//# sourceMappingURL=loader.js.map
+//# sourceMappingURL=../src/loader.js.map

@@ -14,4 +14,4 @@ const keyupHandler = (numSections, currentSection, decrementIndex, incrementInde
     }
 };
 export default keyupHandler;
-//# sourceMappingURL=keyup-handler.js.map
+//# sourceMappingURL=../../src/lib/keyup-handler.js.map

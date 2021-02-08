@@ -12,4 +12,4 @@ const initNotesWindow = (showNotes, notesWindow, setNotesWindow) => {
     }
 };
 export default initNotesWindow;
-//# sourceMappingURL=init-notes-window.js.map
+//# sourceMappingURL=../../src/lib/init-notes-window.js.map

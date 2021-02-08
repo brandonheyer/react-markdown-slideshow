@@ -7,4 +7,4 @@ const paragraph = (t, context) => {
     return false;
 };
 export default paragraph;
-//# sourceMappingURL=paragraph.js.map
+//# sourceMappingURL=../../src/handlers/paragraph.js.map

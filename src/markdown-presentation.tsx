@@ -1,11 +1,12 @@
 import React, {
   FC,
+	ReactNode,
   useCallback,
   useState,
   useEffect,
 } from "react";
 
-import { SectionTags, Notes, MutableSectionIndex, MutableIndexSetter, Sections } from "./types";
+import {SectionClasses, SectionEntry, SectionTags, Notes, MutableSectionIndex, MutableIndexSetter, Sections } from "./types";
 
 import initKeyupHandler from "./lib/init-keyup-handler";
 import keyupHandler from "./lib/keyup-handler";
@@ -17,6 +18,7 @@ interface MarkdownPresentationProps {
   notesWindow?: Window | null;
   notes?: Notes;
 	sectionTags?: SectionTags;
+	sectionClasses?: SectionClasses;
 }
 
 const updateIndex = (
@@ -28,11 +30,42 @@ const updateIndex = (
 	window.location.hash = `#${current.index + change}`;
 };
 
+const sectionMapper = (S: ReactNode) => {
+	if (typeof S === "function") {
+		return (<S />);
+	}
+
+	return S;
+};
+
+interface SlidePartProps {
+	section: SectionEntry;
+	className: string;
+	index: 0 | 1;
+}
+
+const SlidePart: FC<SlidePartProps> = ({ section, index, className }) => {
+	if (section) {
+		const currentSection = section[index];
+
+		if (currentSection && currentSection.length) {
+			return (
+				<div className={className}>
+					{currentSection.map(sectionMapper)}
+				</div>
+			);
+		}
+	}
+
+	return null;
+}
+
 const MarkdownPresentation: FC<MarkdownPresentationProps> = ({
   notes,
   notesWindow,
   sections,
 	sectionTags = [],
+	sectionClasses = [],
   startingSection = 0,
 }) => {
   const [currentSection, setCurrentSection] = useState<MutableSectionIndex>({
@@ -60,10 +93,22 @@ const MarkdownPresentation: FC<MarkdownPresentationProps> = ({
     updateNotesWindow(currentSection.index, sections.length, notesWindow, notes)
   }, [notes, notesWindow, currentSection.index, sections.length]);
 
+	console.log(sectionClasses);
+
   return (
-		<section>
-			<div data-tags={sectionTags[currentSection.index] && sectionTags[currentSection.index].join("-")}>
-				{sections[currentSection.index]}
+		<section className="slide">
+			<div className={`slide-container ${sectionClasses[currentSection.index] && sectionClasses[currentSection.index].join(" ")}`} data-tags={sectionTags[currentSection.index] && sectionTags[currentSection.index].join("-")}>
+				<SlidePart
+					className="slide-header"
+					section={sections[currentSection.index]}
+					index={0}
+				/>
+
+				<SlidePart
+					className="slide-body"
+					section={sections[currentSection.index]}
+					index={1}
+				/>
 			</div>
 		</section>
 	);

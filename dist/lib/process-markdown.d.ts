@@ -1,5 +1,5 @@
-import { Token } from "marked";
-import { DefaultParserContext, SectionsSetter, NotesSetter, SectionTagSetter } from "../types";
-export declare const tokenWalker: (context: DefaultParserContext) => (unknownToken: Token) => void;
-declare const processMarkdown: (path: string, setSections: SectionsSetter, setNotes: NotesSetter, setSectionTags: SectionTagSetter) => void;
+import marked from "marked";
+import { FixedToken, DefaultParserContext, SectionsSetter, NotesSetter, SectionTagSetter, SectionClassSetter } from "../types";
+export declare const tokenWalker: (context: DefaultParserContext) => (unknownToken: FixedToken, parent?: marked.Tokens.Space | marked.Tokens.Code | marked.Tokens.Table | marked.Tokens.Hr | marked.Tokens.Blockquote | marked.Tokens.BlockquoteStart | marked.Tokens.BlockquoteEnd | marked.Tokens.Paragraph | marked.Tokens.HTML | marked.Tokens.Text | marked.Tokens.Escape | marked.Tokens.Tag | marked.Tokens.Link | marked.Tokens.Strong | marked.Tokens.Em | marked.Tokens.Codespan | marked.Tokens.Br | marked.Tokens.Del | import("../types").FixedHeading | import("../types").FixedList | import("../types").FixedListItem | undefined) => boolean | undefined;
+declare const processMarkdown: (path: string, setSections: SectionsSetter, setNotes: NotesSetter, setSectionTags: SectionTagSetter, setSectionClasses: SectionClassSetter) => void;
 export default processMarkdown;

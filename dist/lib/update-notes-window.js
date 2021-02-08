@@ -12,4 +12,4 @@ const updateNotesWindow = (currentSection, numSections, notesWindow, notes) => {
     }
 };
 export default updateNotesWindow;
-//# sourceMappingURL=update-notes-window.js.map
+//# sourceMappingURL=../../src/lib/update-notes-window.js.map

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
-import { Token, Tokens } from "marked";
+import { ReactNode, Dispatch, SetStateAction } from "react";
+import { Token, Tokens, TokensList, MarkedOptions } from "marked";
 
 /**
  * Adjustments to @types/marked
@@ -12,11 +12,16 @@ export type FixedHeading = Tokens.Heading & {
   tokens: Array<FixedToken>;
 };
 
+export type FixedListItem = Tokens.Heading & {
+	tokens: Array<FixedToken>;
+}
+
 /**
  * `Tokens.List` has `type` set to "list_start", should be "list"
  */
-export type FixedList = Omit<Tokens.List, "type"> & {
+export type FixedList = Omit<Tokens.List, "type" | "items"> & {
   type: "list";
+	items: Array<FixedListItem>;
 };
 
 /**
@@ -26,9 +31,10 @@ export type FixedList = Omit<Tokens.List, "type"> & {
  *  - replace `Tokens.Heading` with `FixedHeading` (for consistency)
  */
 export type FixedToken =
-  | Exclude<Token, Tokens.Def | Tokens.Heading | Tokens.List>
+  | Exclude<Token, Tokens.Def | Tokens.Heading | Tokens.List | Tokens.ListItem>
   | FixedHeading
   | FixedList
+	| FixedListItem
   | Tokens.Link;
 
 /**
@@ -51,32 +57,37 @@ export type TextToken = Exclude<
  * Other Types
  */
 
-export type SectionElements = Array<JSX.Element>;
-export type Sections = Array<SectionElements>;
+export type SectionElements = Array<ReactNode>;
+export type SectionEntry = [SectionElements, SectionElements];
+export type Sections = Array<SectionEntry>;
 export type SectionTags = Array<Array<string>>;
+export type SectionClasses = Array<Array<string>>;
 export type Notes = Array<Array<string>>;
 
 export type WindowSetter = Dispatch<SetStateAction<Window | null>>;
 export type SectionTagSetter = Dispatch<SetStateAction<SectionTags>>;
+export type SectionClassSetter = Dispatch<SetStateAction<SectionClasses>>;
 export type NotesSetter = Dispatch<SetStateAction<Notes>>;
 export type SectionsSetter = Dispatch<SetStateAction<Sections>>;
 
 interface ParserContext {
-[key: string]: any;
+	[key: string]: any;
 }
 
 export interface DefaultParserContext extends ParserContext {
 	headingIndex: number;
-	currSection: SectionElements;
+	currSection: SectionEntry;
 	newSections: Sections;
 	sectionTags: SectionTags;
+	sectionClasses: SectionClasses;
 	notes: Array<Array<string>>;
 }
 
 export type ElementHandler<T extends ParserContext> = (
   token: FixedToken,
-  context: T
-) => Array<JSX.Element> | JSX.Element | boolean;
+  context: T,
+	parser: (src: TokensList, options?: MarkedOptions) => string
+) => [ReactNode, string | Array<string>] | ReactNode;
 
 export type DefaultElementHandler = ElementHandler<DefaultParserContext>;
 

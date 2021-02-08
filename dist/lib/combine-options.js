@@ -16,4 +16,4 @@ const combineOptions = (options) => {
     return combinedOptions;
 };
 export default combineOptions;
-//# sourceMappingURL=combine-options.js.map
+//# sourceMappingURL=../../src/lib/combine-options.js.map

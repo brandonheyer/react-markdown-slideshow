@@ -1,7 +1,7 @@
 import React, { FC, useState, useEffect, useMemo } from "react";
 
 import MarkdownPresentation from "./markdown-presentation";
-import { Sections, Notes, PresentationOptions, ConfigurablePresentationOptions } from "./types";
+import { SectionTags, SectionClasses, Sections, Notes, PresentationOptions, ConfigurablePresentationOptions } from "./types";
 
 import processMarkdown from "./lib/process-markdown";
 import combineOptions from "./lib/combine-options";
@@ -14,7 +14,8 @@ interface LoaderProps {
 
 const Loader: FC<LoaderProps> = ({ path, presentationOptions = {} }) => {
   const [sections, setSections] = useState<Sections>([]);
-	const [sectionTags, setSectionTags] = useState<Notes>([]);
+	const [sectionTags, setSectionTags] = useState<SectionTags>([]);
+	const [sectionClasses, setSectionClasses] = useState<SectionClasses >([]);
   const [notes, setNotes] = useState<Notes>([]);
   const [notesWindow, setNotesWindow] = useState<Window|null>(null);
 
@@ -33,7 +34,7 @@ const Loader: FC<LoaderProps> = ({ path, presentationOptions = {} }) => {
 
 	// Process the provided markdown at `path`
   useEffect(() => {
-		processMarkdown(path, setSections, setNotes, setSectionTags);
+		processMarkdown(path, setSections, setNotes, setSectionTags, setSectionClasses);
   }, [path]);
 
   return (
@@ -43,6 +44,7 @@ const Loader: FC<LoaderProps> = ({ path, presentationOptions = {} }) => {
       notesWindow={notesWindow}
       startingSection={parseInt(window.location.hash.replace("#", ""), 10) || 0}
 			sectionTags={sectionTags}
+			sectionClasses={sectionClasses}
     />
   );
 };
