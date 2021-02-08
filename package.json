@@ -1,6 +1,6 @@
 {
 	"name": "react-markdown-slideshow",
-	"version": "0.1.9",
+	"version": "0.1.10",
 	"dependencies": {
 		"marked": "^1.2.7",
 		"prism": "^4.1.2",
