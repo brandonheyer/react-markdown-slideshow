@@ -72,6 +72,8 @@ const MarkdownPresentation: FC<MarkdownPresentationProps> = ({
     index: startingSection,
   });
 
+	const [startTime] = useState<number>(+(new Date()));
+
   const incrementIndex = useCallback(
     updateIndex(1, currentSection, setCurrentSection),
     [currentSection]
@@ -90,7 +92,7 @@ const MarkdownPresentation: FC<MarkdownPresentationProps> = ({
   useEffect(() => initKeyupHandler(internalKeyupHandler), [internalKeyupHandler]);
 
   useEffect(() => {
-    updateNotesWindow(currentSection.index, sections.length, notesWindow, notes)
+    updateNotesWindow(currentSection.index, sections.length, notesWindow, notes, +(new Date()) - startTime)
   }, [notes, notesWindow, currentSection.index, sections.length]);
 
 	console.log(sectionClasses);

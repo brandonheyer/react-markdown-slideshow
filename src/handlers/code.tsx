@@ -58,7 +58,7 @@ const code: DefaultElementHandler = (t) => {
 		}, [codeRef]);
 
 		return (
-			<pre>
+			<pre tabIndex={1}>
 				<code ref={codeRef} className={lang ? `language-${lang}` : ""}>
 					{text}
 				</code>

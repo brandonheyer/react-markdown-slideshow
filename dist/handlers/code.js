@@ -41,7 +41,7 @@ const code = (t) => {
                 PrismJS.highlightElement(codeRef.current);
             }
         }, [codeRef]);
-        return (React.createElement("pre", null,
+        return (React.createElement("pre", { tabIndex: 1 },
             React.createElement("code", { ref: codeRef, className: lang ? `language-${lang}` : "" }, text)));
     };
 };

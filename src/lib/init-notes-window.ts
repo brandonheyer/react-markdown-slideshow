@@ -5,7 +5,7 @@ const initNotesWindow = (showNotes: boolean, notesWindow: Window | null, setNote
 		const w = window.open(
 			undefined,
 			"_blank",
-			"toolbar=0,location=0,menubar=0,modal=yes,alwaysRaised=yes,width=500,height=500"
+			"toolbar=0,location=0,menubar=0,modal=yes,alwaysRaised=yes"
 		);
 
 		if (w) {
@@ -13,8 +13,13 @@ const initNotesWindow = (showNotes: boolean, notesWindow: Window | null, setNote
 
 			w.document.body.setAttribute(
 				"style",
-				"background-color: #000000; font-size: 2em; color: #eeeeee; font-family: Helvetica; padding: 5em;"
+				"background-color: #000000; font-size: 1.5em; color: #eeeeee; font-family: Helvetica; padding: 1.5em;"
 			);
+
+			const styleChild = w.document.createElement("style");
+			styleChild.innerHTML = "div {padding-bottom: 1em; line-height: 2em;}";
+
+			w.document.head.appendChild(styleChild);
 		}
 	}
 	else if (notesWindow) {

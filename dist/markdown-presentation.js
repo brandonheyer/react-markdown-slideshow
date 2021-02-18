@@ -25,12 +25,13 @@ const MarkdownPresentation = ({ notes, notesWindow, sections, sectionTags = [], 
     const [currentSection, setCurrentSection] = useState({
         index: startingSection,
     });
+    const [startTime] = useState(+(new Date()));
     const incrementIndex = useCallback(updateIndex(1, currentSection, setCurrentSection), [currentSection]);
     const decrementIndex = useCallback(updateIndex(-1, currentSection, setCurrentSection), [currentSection]);
     const internalKeyupHandler = useCallback(keyupHandler(sections.length, currentSection.index, decrementIndex, incrementIndex), [sections.length, currentSection, incrementIndex, decrementIndex]);
     useEffect(() => initKeyupHandler(internalKeyupHandler), [internalKeyupHandler]);
     useEffect(() => {
-        updateNotesWindow(currentSection.index, sections.length, notesWindow, notes);
+        updateNotesWindow(currentSection.index, sections.length, notesWindow, notes, +(new Date()) - startTime);
     }, [notes, notesWindow, currentSection.index, sections.length]);
     console.log(sectionClasses);
     return (React.createElement("section", { className: "slide" },

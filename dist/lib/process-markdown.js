@@ -43,8 +43,10 @@ export const tokenWalker = (context) => (unknownToken, parent) => {
                 }
             }
             else if (handlerResult === true) {
+                let html = marked.parser([token]);
+                html = html.replace(/<td>/g, "<td tabIndex='1'>");
                 context.currSection[index].push(() => (React.createElement("div", { className: "basic-slide-part", key: `${context.currSection.length}:${token.type}`, dangerouslySetInnerHTML: {
-                        __html: marked.parser([token]),
+                        __html: html,
                     } })));
             }
             else {

@@ -48,11 +48,15 @@ export const tokenWalker = (context: DefaultParserContext) => (unknownToken: Fix
 					context.currSection[index] = handler;
 				}
 			} else if (handlerResult === true) {
+				let html = marked.parser(([token] as any) as TokensList);
+
+				html = html.replace(/<td>/g, "<td tabIndex='1'>");
+
 				context.currSection[index].push(() => (
 					<div className="basic-slide-part"
 						key={`${context.currSection.length}:${token.type}`}
 						dangerouslySetInnerHTML={{
-							__html: marked.parser(([token] as any) as TokensList),
+							__html: html,
 						}}
 					/>
 				));
